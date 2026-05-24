@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sivakumar & Sangeetha — Wedding Invitation</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset ─────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --maroon:#5A1520;
+  --maroon-deep:#3D0E15;
+  --maroon-dark:#1F0709;
+  --gold:#D4A574;
+  --rose-gold:#C9956B;
+  --blush:rgba(212,175,116,.12);
+  --ivory:#F8F4EE;
+  --cream:#EDE4D8;
+  --white:#FFFEFB;
+  --text-dark:#2D1410;
+  --text-muted:rgba(255,255,255,.6);
+  --heading:'Cormorant Garamond',Georgia,serif;
+  --body:'Jost',Helvetica,Arial,sans-serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--ivory);
+  color:var(--text-dark);
+  font-family:var(--body);
+  font-weight:300;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Reveal on scroll ──────────────────────────────── */
+.reveal{
+  opacity:0;
+  transform:translateY(30px) scale(.96);
+  transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1);
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+/* Variant: zoom-in from center */
+.reveal-zoom{
+  opacity:0;
+  transform:scale(.88);
+  transition:opacity 1s cubic-bezier(.22,.61,.36,1),transform 1s cubic-bezier(.22,.61,.36,1);
+}
+.reveal-zoom.visible{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Variant: slide from left */
+.reveal-left{
+  opacity:0;
+  transform:translateX(-40px) scale(.97);
+  transition:opacity .85s ease,transform .85s ease;
+}
+.reveal-left.visible{
+  opacity:1;
+  transform:translateX(0) scale(1);
+}
+
+/* Variant: slide from right */
+.reveal-right{
+  opacity:0;
+  transform:translateX(40px) scale(.97);
+  transition:opacity .85s ease,transform .85s ease;
+}
+.reveal-right.visible{
+  opacity:1;
+  transform:translateX(0) scale(1);
+}
+
+/* Staggered children animation */
+.stagger-children > *{
+  opacity:0;
+  transform:translateY(24px) scale(.94);
+  transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);
+}
+.stagger-children.visible > *{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.stagger-children.visible > *:nth-child(1){transition-delay:.05s}
+.stagger-children.visible > *:nth-child(2){transition-delay:.15s}
+.stagger-children.visible > *:nth-child(3){transition-delay:.25s}
+.stagger-children.visible > *:nth-child(4){transition-delay:.35s}
+.stagger-children.visible > *:nth-child(5){transition-delay:.45s}
+.stagger-children.visible > *:nth-child(6){transition-delay:.55s}
+
+/* Photo zoom-in individually */
+.photo-reveal{
+  opacity:0;
+  transform:scale(.85);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.photo-reveal.visible{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* ── Section label mixin ───────────────────────────── */
+.section-label{
+  font-family:var(--body);
+  font-size:clamp(9px,1.1vw,11px);
+  font-weight:400;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+
+/* ══════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 24px;
+  overflow:hidden;
+  background:var(--maroon);
+}
+
+/* Faint couple photo */
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:url('photo1.jpg') center/cover no-repeat;
+  opacity:.18;
+  z-index:0;
+}
+
+/* Radial gradient overlay */
+.hero-overlay{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center,rgba(90,21,32,.35) 0%,rgba(31,7,9,.92) 100%);
+  z-index:1;
+}
+
+/* ── Corner ornaments ─────────────────────────────── */
+.corner-ornament{
+  position:absolute;
+  width:clamp(80px,12vw,150px);
+  height:clamp(80px,12vw,150px);
+  z-index:2;
+  opacity:.35;
+  pointer-events:none;
+  animation:ornamentGlow 4s ease-in-out infinite;
+}
+.corner-ornament svg{width:100%;height:100%}
+.corner-tl{top:16px;left:16px;animation-delay:0s}
+.corner-tr{top:16px;right:16px;transform:scaleX(-1);animation-delay:.5s}
+.corner-bl{bottom:16px;left:16px;transform:scaleY(-1);animation-delay:1s}
+.corner-br{bottom:16px;right:16px;transform:scale(-1);animation-delay:1.5s}
+@keyframes ornamentGlow{
+  0%,100%{opacity:.35;filter:drop-shadow(0 0 0 transparent)}
+  50%{opacity:.5;filter:drop-shadow(0 0 8px rgba(212,165,116,.4))}
+}
+
+/* ── Floating petals ──────────────────────────────── */
+.petal{
+  position:absolute;
+  width:8px;height:14px;
+  border-radius:50% 50% 50% 0;
+  opacity:0;
+  z-index:2;
+  pointer-events:none;
+  animation:floatPetal linear infinite;
+}
+@keyframes floatPetal{
+  0%{opacity:0;transform:translateY(-40px) rotate(0deg)}
+  10%{opacity:.7}
+  90%{opacity:.5}
+  100%{opacity:0;transform:translateY(calc(100svh + 40px)) rotate(360deg)}
+}
+
+/* ── Floating hearts ─────────────────────────────── */
+.floating-heart{
+  position:absolute;
+  pointer-events:none;
+  z-index:2;
+  animation:floatHeart linear infinite, heartPulse 2s ease-in-out infinite;
+}
+.floating-heart svg{
+  width:100%;height:100%;
+  fill:currentColor;
+}
+@keyframes floatHeart{
+  0%{opacity:0;transform:translateY(20px) scale(.8) rotate(-8deg)}
+  15%{opacity:var(--heart-peak,.07)}
+  85%{opacity:var(--heart-peak,.05)}
+  100%{opacity:0;transform:translateY(calc(-100svh - 60px)) scale(1.1) rotate(12deg)}
+}
+@keyframes heartPulse{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.3)}
+}
+
+/* ── Floating sparkles/stars ─────────────────────── */
+.floating-sparkle{
+  position:absolute;
+  pointer-events:none;
+  z-index:2;
+  animation:floatSparkle linear infinite;
+}
+.floating-sparkle svg{
+  width:100%;height:100%;
+  fill:currentColor;
+}
+@keyframes floatSparkle{
+  0%{opacity:0;transform:translateY(20px) scale(.5) rotate(0deg)}
+  15%{opacity:var(--sparkle-peak,.12)}
+  85%{opacity:var(--sparkle-peak,.08)}
+  100%{opacity:0;transform:translateY(-120%) scale(1.2) rotate(360deg)}
+}
+
+/* ── Heart watermark on light sections ───────────── */
+.has-hearts{
+  position:relative;
+}
+.has-hearts::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C9A55C'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-size:60px 60px;
+  background-repeat:repeat;
+  z-index:0;
+}
+
+/* Hero content */
+.hero-content{
+  position:relative;
+  z-index:3;
+  max-width:720px;
+}
+
+.hero-tagline{
+  font-family:var(--body);
+  font-size:clamp(9px,1.2vw,11px);
+  font-weight:400;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:28px;
+}
+
+.hero-names{
+  font-family:var(--heading);
+  font-weight:300;
+  line-height:1.15;
+}
+.hero-names .groom{
+  display:block;
+  font-size:clamp(52px,10vw,96px);
+  color:var(--white);
+  animation:fadeInUp 1s ease-out .2s both;
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.hero-names .amp{
+  display:block;
+  font-style:italic;
+  font-size:clamp(32px,5vw,52px);
+  color:rgba(255,255,255,.45);
+  margin:4px 0;
+  animation:fadeInUp 1s ease-out .5s both,ampPulse 3s ease-in-out 1.5s infinite;
+}
+@keyframes ampPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+.hero-names .bride{
+  display:block;
+  font-style:italic;
+  font-size:clamp(52px,10vw,96px);
+  color:var(--gold);
+  animation:fadeInUp 1s ease-out .8s both;
+}
+
+/* Diamond divider */
+.diamond-rule{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin:32px auto;
+  width:min(320px,80%);
+  animation:fadeInUp 1s ease-out .6s both;
+}
+.diamond-rule span{flex:1;height:1px;background:rgba(255,255,255,.2)}
+.diamond-rule i{
+  font-style:normal;
+  color:var(--gold);
+  font-size:12px;
+  line-height:1;
+  animation:diamondSpin 4s linear infinite;
+}
+@keyframes diamondSpin{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  50%{transform:rotate(180deg) scale(1.2)}
+}
+
+/* Hero meta */
+.hero-meta{
+  font-family:var(--body);
+  font-size:clamp(10px,1.3vw,12px);
+  font-weight:300;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.72);
+  line-height:2.4;
+}
+.hero-meta .gold{color:var(--gold)}
+
+/* CTA */
+.hero-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:36px;
+  padding:12px 30px;
+  border:1px solid var(--gold);
+  border-radius:2px;
+  color:var(--gold);
+  font-family:var(--body);
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:background .35s,color .35s,transform .35s,box-shadow .35s;
+  animation:fadeInUp 1s ease-out 1.2s both,ctaPulse 2s ease-in-out 2s infinite;
+}
+.hero-cta:hover{
+  background:var(--gold);
+  color:var(--maroon);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(212,165,116,.3);
+}
+.hero-cta:active{
+  transform:translateY(-1px);
+}
+.hero-cta svg{
+  width:14px;height:14px;
+  fill:currentColor;
+}
+@keyframes ctaPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* ══════════════════════════════════════════════════════
+   COUNTDOWN
+   ══════════════════════════════════════════════════════ */
+.countdown{
+  background:var(--maroon-dark);
+  padding:clamp(48px,8vw,88px) 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.countdown .section-label{color:var(--gold);margin-bottom:36px}
+
+.timer{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:center;
+  gap:clamp(10px,2vw,24px);
+  flex-wrap:wrap;
+}
+
+.box{
+  border:1px solid rgba(212,175,106,.35);
+  background:rgba(255,255,255,.04);
+  width:clamp(72px,14vw,150px);
+  padding:clamp(14px,3vw,30px) 8px;
+  text-align:center;
+  animation:boxPulse 2s ease-in-out infinite;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.box:hover{
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 8px 24px rgba(212,165,116,.2);
+}
+@keyframes boxPulse{
+  0%,100%{border-color:rgba(212,175,106,.35)}
+  50%{border-color:rgba(212,175,106,.6)}
+}
+
+.box .num{
+  display:block;
+  font-family:var(--heading);
+  font-weight:300;
+  font-size:clamp(32px,5vw,56px);
+  color:var(--gold);
+  line-height:1.1;
+  animation:numberShine 3s ease-in-out infinite;
+}
+@keyframes numberShine{
+  0%,100%{text-shadow:0 0 0 transparent}
+  50%{text-shadow:0 0 12px rgba(212,165,116,.5)}
+}
+
+.box .unit{
+  display:block;
+  font-family:var(--body);
+  font-size:clamp(8px,1vw,10px);
+  font-weight:400;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-top:8px;
+}
+
+/* ══════════════════════════════════════════════════════
+   WEDDING DETAILS
+   ══════════════════════════════════════════════════════ */
+.details-section{
+  background:var(--ivory);
+  padding:clamp(48px,8vw,96px) 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.details-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  max-width:780px;
+  margin:0 auto;
+}
+
+.detail-card{
+  padding:28px 16px;
+  position:relative;
+  animation:cardFloatUp 3s ease-in-out infinite;
+  transition:transform .4s ease,box-shadow .4s ease,background .4s ease;
+}
+.detail-card:nth-child(1){animation-delay:0s}
+.detail-card:nth-child(2){animation-delay:.4s}
+.detail-card:nth-child(3){animation-delay:.8s}
+.detail-card:hover{
+  transform:translateY(-8px);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 8px 24px rgba(212,165,116,.15);
+}
+@keyframes cardFloatUp{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+.detail-card:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  right:0;
+  top:15%;
+  height:70%;
+  width:1.5px;
+  background:var(--cream);
+}
+
+.detail-icon{
+  width:44px;height:44px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  border:1px solid var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .4s ease,box-shadow .4s ease;
+  animation:iconFloat 3s ease-in-out infinite;
+}
+.detail-card:hover .detail-icon{
+  transform:translateY(-6px) rotate(360deg);
+  box-shadow:0 6px 20px rgba(212,165,116,.3);
+}
+.detail-icon svg{
+  width:18px;height:18px;
+  stroke:var(--gold);
+  fill:none;
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+
+.detail-label{
+  font-family:var(--body);
+  font-size:clamp(8px,1vw,10px);
+  font-weight:400;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:8px;
+  animation:labelPulse 2s ease-in-out infinite;
+}
+@keyframes labelPulse{
+  0%,100%{opacity:.8}
+  50%{opacity:1}
+}
+
+.detail-value{
+  font-family:var(--heading);
+  font-weight:400;
+  font-size:clamp(18px,2.4vw,24px);
+  color:var(--text-dark);
+  line-height:1.45;
+  transition:color .3s ease;
+}
+.detail-card:hover .detail-value{
+  color:var(--maroon);
+}
+
+/* ══════════════════════════════════════════════════════
+   PHOTO GALLERY
+   ══════════════════════════════════════════════════════ */
+.gallery{
+  background:var(--cream);
+  padding:clamp(48px,8vw,96px) 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.photos{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:12px;
+  max-width:1100px;
+  margin:36px auto 0;
+}
+
+.photos img{
+  width:100%;
+  object-fit:cover;
+  border-radius:4px;
+  transition:transform .5s ease,box-shadow .5s ease,filter .5s ease;
+  display:block;
+  cursor:pointer;
+  animation:photoFloat 4s ease-in-out infinite;
+}
+.photos img:hover{
+  transform:scale(1.08) rotate(1deg);
+  box-shadow:0 12px 40px rgba(0,0,0,.15);
+  filter:brightness(1.05);
+  z-index:10;
+}
+@keyframes photoFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-6px) rotate(-.5deg)}
+  50%{transform:translateY(0) rotate(.5deg)}
+  75%{transform:translateY(-4px) rotate(-.3deg)}
+}
+
+.photos img:nth-child(1){grid-column:span 7;height:340px;animation-delay:0s}
+.photos img:nth-child(2){grid-column:span 5;height:340px;animation-delay:.3s}
+.photos img:nth-child(3){grid-column:span 4;height:280px;animation-delay:.6s}
+.photos img:nth-child(4){grid-column:span 4;height:280px;animation-delay:.9s}
+.photos img:nth-child(5){grid-column:span 4;height:280px;animation-delay:1.2s}
+.photos img:nth-child(6){grid-column:span 12;height:240px;animation-delay:1.5s}
+
+/* ══════════════════════════════════════════════════════
+   VENUE
+   ══════════════════════════════════════════════════════ */
+.venue-section{
+  background:var(--ivory);
+  padding:clamp(48px,8vw,96px) 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.venue-card{
+  position:relative;
+  z-index:1;
+  max-width:640px;
+  margin:0 auto;
+  background:var(--white);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:6px;
+  overflow:hidden;
+  transition:transform .4s ease,box-shadow .4s ease;
+  animation:cardFloat 4s ease-in-out infinite;
+}
+.venue-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 16px 48px rgba(0,0,0,.12);
+}
+@keyframes cardFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+
+.venue-card img{
+  width:100%;
+  height:280px;
+  object-fit:cover;
+  display:block;
+}
+
+.venue-body{
+  padding:28px 32px 32px;
+}
+
+.venue-name{
+  font-family:var(--heading);
+  font-weight:400;
+  font-size:clamp(22px,3vw,28px);
+  color:var(--text-dark);
+  margin-bottom:6px;
+}
+
+.venue-address{
+  font-family:var(--body);
+  font-size:13px;
+  color:rgba(58,22,16,.5);
+  margin-bottom:22px;
+}
+
+.venue-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:12px 26px;
+  background:var(--maroon);
+  color:var(--white);
+  font-family:var(--body);
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-radius:3px;
+  transition:background .3s,transform .3s,box-shadow .3s;
+}
+.venue-btn:hover{
+  background:var(--maroon-dark);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(90,21,32,.3);
+}
+.venue-btn:active{
+  transform:translateY(0);
+}
+.venue-btn svg{
+  width:14px;height:14px;
+  fill:currentColor;
+  animation:pinBounce 2s ease-in-out infinite;
+}
+@keyframes pinBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+
+/* ══════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════ */
+.footer{
+  background:var(--maroon-dark);
+  padding:clamp(48px,8vw,80px) 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.footer-names{
+  position:relative;
+  z-index:3;
+  font-family:var(--heading);
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(36px,6vw,56px);
+  color:var(--gold);
+  line-height:1.2;
+  animation:nameShimmer 4s ease-in-out infinite;
+}
+@keyframes nameShimmer{
+  0%,100%{text-shadow:0 0 0 transparent,0 0 0 transparent}
+  50%{text-shadow:0 0 20px rgba(212,165,116,.4),0 0 40px rgba(212,165,116,.2)}
+}
+
+.footer-date{
+  font-family:var(--body);
+  font-size:clamp(10px,1.2vw,12px);
+  font-weight:300;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  margin-top:14px;
+}
+
+.footer-closing{
+  font-family:var(--body);
+  font-size:clamp(12px,1.5vw,14px);
+  font-weight:300;
+  color:rgba(255,255,255,.5);
+  margin-top:28px;
+  line-height:1.7;
+  max-width:460px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ── Walking couple silhouette ────────────────────── */
+.couple-walk-track{
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;height:110px;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:2;
+}
+
+/* Static road background */
+.road-static{
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;height:110px;
+  z-index:1;
+}
+.road-static svg{
+  width:100%;height:100%;
+  display:block;
+}
+
+/* Moving couple */
+.couple-walk{
+  position:absolute;
+  bottom:4px;
+  z-index:2;
+  animation:walkAcross 28s linear infinite;
+}
+.couple-walk svg{
+  height:clamp(62px,9vw,90px);
+  width:auto;
+  display:block;
+}
+@keyframes walkAcross{
+  0%{left:-180px}
+  100%{left:calc(100% + 180px)}
+}
+
+/* Smooth liquid body sway — gentle sine wave */
+.walk-body{animation:bodySway 1.2s ease-in-out infinite}
+@keyframes bodySway{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-2px) rotate(0deg)}
+}
+
+/* Groom legs — smooth pendulum swing from hip */
+.g-leg-l{transform-origin:68px 78px;animation:legFwd 1.2s ease-in-out infinite}
+.g-leg-r{transform-origin:80px 78px;animation:legBack 1.2s ease-in-out infinite}
+@keyframes legFwd{
+  0%,100%{transform:rotate(0deg)}
+  25%{transform:rotate(-16deg)}
+  75%{transform:rotate(16deg)}
+}
+@keyframes legBack{
+  0%,100%{transform:rotate(0deg)}
+  25%{transform:rotate(16deg)}
+  75%{transform:rotate(-16deg)}
+}
+
+/* Bride saree sway — subtle skirt movement */
+.b-skirt{transform-origin:142px 62px;animation:skirtSway 1.2s ease-in-out infinite}
+@keyframes skirtSway{
+  0%,100%{transform:skewX(0deg)}
+  30%{transform:skewX(1.2deg)}
+  70%{transform:skewX(-1.2deg)}
+}
+
+/* Bride feet peek under saree */
+.b-foot-l{animation:bFootL 1.2s ease-in-out infinite}
+.b-foot-r{animation:bFootR 1.2s ease-in-out infinite}
+@keyframes bFootL{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  75%{transform:translateX(4px)}
+}
+@keyframes bFootR{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(4px)}
+  75%{transform:translateX(-4px)}
+}
+
+/* Groom free arm swing */
+.g-arm-free{transform-origin:60px 48px;animation:armSwing 1.2s ease-in-out infinite}
+@keyframes armSwing{
+  0%,100%{transform:rotate(0deg)}
+  30%{transform:rotate(10deg)}
+  70%{transform:rotate(-10deg)}
+}
+
+/* Bride dupatta flow */
+.b-pallu{animation:palluFlow 2.4s ease-in-out infinite}
+@keyframes palluFlow{
+  0%,100%{transform:translateX(0) translateY(0)}
+  50%{transform:translateX(3px) translateY(-2px)}
+}
+
+/* Ground shadow breathe */
+.c-shadow{animation:shadowBreath 1.2s ease-in-out infinite}
+@keyframes shadowBreath{
+  0%,100%{transform:scaleX(1);opacity:.5}
+  50%{transform:scaleX(.9);opacity:.3}
+}
+
+/* Held-hands gentle squeeze */
+.held-hands{animation:handSqueeze 1.2s ease-in-out infinite}
+@keyframes handSqueeze{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-1px)}
+}
+
+/* ══════════════════════════════════════════════════════
+   MOBILE
+   ══════════════════════════════════════════════════════ */
+@media(max-width:600px){
+  .details-grid{
+    grid-template-columns:1fr;
+  }
+  .detail-card:not(:last-child)::after{
+    width:60%;height:1px;
+    top:auto;bottom:0;left:20%;right:auto;
+  }
+  .photos img:nth-child(1),
+  .photos img:nth-child(2),
+  .photos img:nth-child(3),
+  .photos img:nth-child(4),
+  .photos img:nth-child(5),
+  .photos img:nth-child(6){
+    grid-column:span 12;
+    height:220px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════  HERO  ═══════════════════════ -->
+<section class="hero">
+
+  <!-- Corner ornaments -->
+  <div class="corner-ornament corner-tl"><svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M10 2 Q2 2 2 10 L2 60 Q2 68 10 72 Q30 80 40 100 Q44 110 40 120 Q36 130 28 135" fill="none" stroke="#D4AF6A" stroke-width="1"/><path d="M2 30 Q14 32 22 44 Q28 52 26 64" fill="none" stroke="#D4AF6A" stroke-width=".7"/><circle cx="40" cy="100" r="2" fill="none" stroke="#D4AF6A" stroke-width=".7"/><path d="M60 2 Q58 18 50 28 Q42 38 30 42" fill="none" stroke="#D4AF6A" stroke-width=".7"/></svg></div>
+  <div class="corner-ornament corner-tr"><svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M10 2 Q2 2 2 10 L2 60 Q2 68 10 72 Q30 80 40 100 Q44 110 40 120 Q36 130 28 135" fill="none" stroke="#D4AF6A" stroke-width="1"/><path d="M2 30 Q14 32 22 44 Q28 52 26 64" fill="none" stroke="#D4AF6A" stroke-width=".7"/><circle cx="40" cy="100" r="2" fill="none" stroke="#D4AF6A" stroke-width=".7"/><path d="M60 2 Q58 18 50 28 Q42 38 30 42" fill="none" stroke="#D4AF6A" stroke-width=".7"/></svg></div>
+  <div class="corner-ornament corner-bl"><svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M10 2 Q2 2 2 10 L2 60 Q2 68 10 72 Q30 80 40 100 Q44 110 40 120 Q36 130 28 135" fill="none" stroke="#D4AF6A" stroke-width="1"/><path d="M2 30 Q14 32 22 44 Q28 52 26 64" fill="none" stroke="#D4AF6A" stroke-width=".7"/><circle cx="40" cy="100" r="2" fill="none" stroke="#D4AF6A" stroke-width=".7"/><path d="M60 2 Q58 18 50 28 Q42 38 30 42" fill="none" stroke="#D4AF6A" stroke-width=".7"/></svg></div>
+  <div class="corner-ornament corner-br"><svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M10 2 Q2 2 2 10 L2 60 Q2 68 10 72 Q30 80 40 100 Q44 110 40 120 Q36 130 28 135" fill="none" stroke="#D4AF6A" stroke-width="1"/><path d="M2 30 Q14 32 22 44 Q28 52 26 64" fill="none" stroke="#D4AF6A" stroke-width=".7"/><circle cx="40" cy="100" r="2" fill="none" stroke="#D4AF6A" stroke-width=".7"/><path d="M60 2 Q58 18 50 28 Q42 38 30 42" fill="none" stroke="#D4AF6A" stroke-width=".7"/></svg></div>
+
+  <!-- Radial gradient overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Floating petals (generated by JS) -->
+
+  <div class="hero-content">
+    <p class="hero-tagline">Together With Our Families</p>
+
+    <h1 class="hero-names">
+      <span class="groom">Sivakumar</span>
+      <span class="amp">&amp;</span>
+      <span class="bride">Sangeetha</span>
+    </h1>
+
+    <div class="diamond-rule"><span></span><i>&#10022;</i><span></span></div>
+
+    <div class="hero-meta">
+      <span class="gold">07 June 2026</span> &nbsp;·&nbsp; 7:30 AM<br>
+      Sri Sai AC Mahal
+    </div>
+
+    <a class="hero-cta" href="https://share.google/HgRwv1oPDnzEwe6BZ" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+      View Venue
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════  COUNTDOWN  ═══════════════════════ -->
+<section class="countdown reveal-zoom">
+  <p class="section-label">Counting Down To Our Forever</p>
+
+  <div class="timer stagger-children reveal">
+    <div class="box">
+      <span class="num" id="days">0</span>
+      <span class="unit">Days</span>
+    </div>
+    <div class="box">
+      <span class="num" id="hours">0</span>
+      <span class="unit">Hours</span>
+    </div>
+    <div class="box">
+      <span class="num" id="minutes">0</span>
+      <span class="unit">Minutes</span>
+    </div>
+    <div class="box">
+      <span class="num" id="seconds">0</span>
+      <span class="unit">Seconds</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════  WEDDING DETAILS  ═══════════════════════ -->
+<section class="details-section has-hearts reveal-zoom">
+  <p class="section-label" style="color:var(--gold)">Wedding Details</p>
+
+  <div class="details-grid stagger-children reveal">
+
+    <!-- Date -->
+    <div class="detail-card">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <p class="detail-label">Date</p>
+      <p class="detail-value">07 June<br>2026</p>
+    </div>
+
+    <!-- Time -->
+    <div class="detail-card">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <p class="detail-label">Time</p>
+      <p class="detail-value">7:30 AM<br>Onwards</p>
+    </div>
+
+    <!-- Venue -->
+    <div class="detail-card">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <p class="detail-label">Venue</p>
+      <p class="detail-value">Sri Sai<br>AC Mahal</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════  GALLERY  ═══════════════════════ -->
+<section class="gallery has-hearts reveal-zoom">
+  <p class="section-label" style="color:var(--maroon)">Our Moments</p>
+
+  <div class="photos stagger-children reveal">
+    <img src="photo1.jpg" alt="Couple photo 1">
+    <img src="photo2.jpg" alt="Couple photo 2">
+    <img src="photo3.jpg" alt="Couple photo 3">
+    <img src="photo4.jpg" alt="Couple photo 4">
+    <img src="photo5.jpg" alt="Couple photo 5">
+    <img src="photo6.jpg" alt="Couple photo 6">
+  </div>
+</section>
+
+<!-- ═══════════════════════  VENUE  ═══════════════════════ -->
+<section class="venue-section has-hearts reveal-zoom">
+  <p class="section-label">Wedding Venue</p>
+
+  <div class="venue-card reveal">
+    <img src="mahal.jpg" alt="Sri Sai AC Mahal">
+    <div class="venue-body">
+      <h3 class="venue-name">Sri Sai AC Mahal</h3>
+      <p class="venue-address">Wedding Ceremony &amp; Reception</p>
+      <a class="venue-btn" href="https://share.google/HgRwv1oPDnzEwe6BZ" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+        Open in Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════  FOOTER  ═══════════════════════ -->
+<footer class="footer">
+  <p class="footer-names">Sivakumar &amp; Sangeetha</p>
+  <p class="footer-date">07 · 06 · 2026</p>
+  <p class="footer-closing">With love &amp; gratitude — we can't wait to celebrate with you.</p>
+
+  <!-- Static road background -->
+  <div class="road-static">
+    <svg viewBox="0 0 100 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#C9A55C" stop-opacity=".08"/>
+          <stop offset="100%" stop-color="#C9A55C" stop-opacity=".02"/>
+        </linearGradient>
+      </defs>
+      
+      <!-- Road base (trapezoid with perspective) -->
+      <path d="M0 75 L100 80 L100 95 L0 88 Z" fill="url(#roadGrad)"/>
+      
+      <!-- Road edge lines -->
+      <line x1="0" y1="75" x2="100" y2="80" stroke="rgba(201,165,92,.15)" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+      <line x1="0" y1="88" x2="100" y2="95" stroke="rgba(201,165,92,.15)" stroke-width="0.8" vector-effect="non-scaling-stroke"/>
+      
+      <!-- Center dashed line -->
+      <line x1="0" y1="81.5" x2="100" y2="87.5" stroke="rgba(201,165,92,.10)" stroke-width="1" stroke-dasharray="3 2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      
+      <!-- Texture lines -->
+      <line x1="0" y1="77" x2="100" y2="82" stroke="rgba(201,165,92,.03)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
+      <line x1="0" y1="79.5" x2="100" y2="84.5" stroke="rgba(201,165,92,.03)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
+      <line x1="0" y1="84" x2="100" y2="90" stroke="rgba(201,165,92,.03)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
+      <line x1="0" y1="86" x2="100" y2="92.5" stroke="rgba(201,165,92,.03)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+
+  <!-- Walking couple silhouette -->
+  <div class="couple-walk-track">
+    <div class="couple-walk">
+      <svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#C9A55C" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#C9A55C" stop-opacity=".10"/>
+          </linearGradient>
+        </defs>
+        
+        <!-- Ground shadow (follows couple) -->
+        <ellipse class="c-shadow" cx="115" cy="150" rx="56" ry="5" fill="rgba(201,165,92,.08)"/>
+
+        <g class="walk-body" fill="url(#cg)">
+
+          <!-- ===== GROOM (taller, left side) ===== -->
+          <!-- Head -->
+          <ellipse cx="72" cy="16" rx="11" ry="13"/>
+          <!-- Hair -->
+          <path d="M61 13 Q63 4 72 3 Q81 4 83 13 Q80 8 72 7 Q64 8 61 13Z" opacity=".6"/>
+          <!-- Neck -->
+          <path d="M68 28 Q72 30 76 28 Q75 24 72 22 Q69 24 68 28Z"/>
+          <!-- Torso -->
+          <path d="M60 34 Q62 29 72 28 Q82 29 84 34 Q86 52 85 78 Q72 80 60 78 Q59 52 60 34Z"/>
+          <!-- Collar detail -->
+          <path d="M66 34 Q72 37 78 34" fill="none" stroke="rgba(201,165,92,.06)" stroke-width="1"/>
+          <!-- Free arm (behind, swinging) -->
+          <path class="g-arm-free" d="M60 40 Q54 44 50 54 Q48 62 50 68 Q51 64 51 58 Q53 48 58 42Z" opacity=".7"/>
+          <!-- Arm to bride (holding hand) -->
+          <path d="M84 42 Q90 46 96 52 Q100 56 104 60" fill="none" stroke="url(#cg)" stroke-width="5.5" stroke-linecap="round"/>
+          <!-- Left leg -->
+          <g class="g-leg-l">
+            <path d="M66 78 Q64 96 62 112 Q60 120 58 126 Q60 130 66 130 Q68 128 67 122 Q66 108 67 90Z" />
+            <ellipse cx="62" cy="130" rx="9" ry="3.5"/>
+          </g>
+          <!-- Right leg -->
+          <g class="g-leg-r">
+            <path d="M78 78 Q80 96 82 112 Q84 120 86 126 Q84 130 78 130 Q76 128 77 122 Q78 108 78 90Z"/>
+            <ellipse cx="82" cy="130" rx="9" ry="3.5"/>
+          </g>
+
+          <!-- ===== BRIDE (shorter, right side) ===== -->
+          <!-- Head (positioned lower = shorter person) -->
+          <ellipse cx="142" cy="26" rx="10" ry="12"/>
+          <!-- Hair with bun -->
+          <path d="M132 23 Q134 14 142 13 Q150 14 152 23 Q149 18 142 17 Q135 18 132 23Z" opacity=".6"/>
+          <ellipse cx="142" cy="14" rx="5.5" ry="5"/>
+          <!-- Hair flower -->
+          <circle cx="150" cy="17" r="2.5" opacity=".8"/>
+          <!-- Neck -->
+          <path d="M138 37 Q142 39 146 37 Q145 34 142 32 Q139 34 138 37Z"/>
+          <!-- Saree blouse -->
+          <path d="M132 42 Q134 38 142 37 Q150 38 152 42 Q154 52 153 62 Q142 64 131 62 Q130 52 132 42Z"/>
+          <!-- Saree skirt (flowing) -->
+          <g class="b-skirt">
+            <path d="M130 62 Q126 86 122 108 Q120 118 118 130 Q130 136 154 136 Q168 136 168 130 Q164 118 160 108 Q156 86 154 62 Q142 66 130 62Z"/>
+          </g>
+          <!-- Pallu / dupatta -->
+          <path class="b-pallu" d="M152 42 Q160 50 162 64 Q163 78 160 92 Q158 102 162 112" fill="none" stroke="rgba(201,165,92,.07)" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Arm to groom (holding hand) -->
+          <path d="M131 44 Q126 48 120 54 Q116 58 112 60" fill="none" stroke="url(#cg)" stroke-width="5" stroke-linecap="round"/>
+          <!-- Free arm (relaxed behind) -->
+          <path d="M153 44 Q158 48 162 56 Q164 62 162 68 Q161 64 160 58 Q158 50 153 46Z" opacity=".5"/>
+          <!-- Feet peeking -->
+          <ellipse class="b-foot-l" cx="126" cy="134" rx="7" ry="3" opacity=".4"/>
+          <ellipse class="b-foot-r" cx="156" cy="134" rx="7" ry="3" opacity=".4"/>
+
+          <!-- ===== HELD HANDS ===== -->
+          <g class="held-hands">
+            <path d="M104 58 Q108 55 112 58 Q110 62 106 62Z" opacity=".9"/>
+          </g>
+
+          <!-- Tiny floating heart -->
+          <path d="M107 38 Q107 34 110 34 Q113 34 113 38 Q113 42 110 44 Q107 42 107 38Z" fill="rgba(201,165,92,.08)">
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-5;0,0" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".05;.16;.05" dur="3s" repeatCount="indefinite"/>
+          </path>
+
+        </g>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════  SCRIPTS  ═══════════════════════ -->
+<script>
+/* ── Countdown ─────────────────────────────────────── */
+const weddingDate = new Date("June 07, 2026 07:30:00").getTime();
+
+const countdown = setInterval(function(){
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+
+  const days    = Math.floor(distance / (1000*60*60*24));
+  const hours   = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  document.getElementById("days").textContent    = days;
+  document.getElementById("hours").textContent   = hours;
+  document.getElementById("minutes").textContent = minutes;
+  document.getElementById("seconds").textContent = seconds;
+
+  if(distance < 0){
+    clearInterval(countdown);
+    document.querySelector(".timer").innerHTML =
+      '<p class="section-label" style="margin:0">The Wedding Day Has Arrived</p>';
+  }
+},1000);
+
+/* ── Scroll reveal ─────────────────────────────────── */
+var revealSelectors = '.reveal, .reveal-zoom, .reveal-left, .reveal-right';
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.10, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll(revealSelectors).forEach(function(el){
+  observer.observe(el);
+});
+
+/* ── Floating petals ───────────────────────────────── */
+(function(){
+  const hero = document.querySelector('.hero');
+  const colors = ['#C9A55C','#F0E8DD','#D4A373','#FAF6F0'];
+  for(let i = 0; i < 18; i++){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random()*100 + '%';
+    p.style.background = colors[i % colors.length];
+    p.style.animationDuration = (8 + Math.random()*10) + 's';
+    p.style.animationDelay = (Math.random()*12) + 's';
+    p.style.width = (5 + Math.random()*6) + 'px';
+    p.style.height = (9 + Math.random()*8) + 'px';
+    hero.appendChild(p);
+  }
+})();
+
+/* ── Floating hearts ──────────────────────────────── */
+(function(){
+  var heartSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+
+  /* Spawn hearts in a container */
+  function spawnHearts(container, count, colorVal, peakOpacity){
+    for(var i = 0; i < count; i++){
+      var h = document.createElement('div');
+      h.className = 'floating-heart';
+      h.innerHTML = heartSVG;
+      var size = 26 + Math.random()*32;
+      h.style.width = size + 'px';
+      h.style.height = size + 'px';
+      h.style.left = Math.random()*94 + 3 + '%';
+      h.style.bottom = '-' + (20 + Math.random()*40) + 'px';
+      h.style.color = colorVal;
+      h.style.setProperty('--heart-peak', String(peakOpacity));
+      h.style.animationDuration = (12 + Math.random()*16) + 's';
+      h.style.animationDelay = (Math.random()*14) + 's';
+      container.appendChild(h);
+    }
+  }
+
+  /* Hero — gold/cream hearts, very faint */
+  spawnHearts(document.querySelector('.hero'), 16, 'rgba(201,165,92,.7)', 0.15);
+
+  /* Countdown — warm rose-gold hearts */
+  spawnHearts(document.querySelector('.countdown'), 12, 'rgba(212,163,115,.65)', 0.14);
+
+  /* Footer — soft gold hearts */
+  spawnHearts(document.querySelector('.footer'), 10, 'rgba(201,165,92,.6)', 0.13);
+})();
+
+/* ── Floating sparkles in details section ──────── */
+(function(){
+  var starSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z"/></svg>';
+  var diamondSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l4 10-4 10-4-10z"/></svg>';
+  var circleSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3"/></svg>';
+  
+  var shapes = [starSVG, diamondSVG, circleSVG];
+  
+  function spawnSparkles(container, count, colorVal, peakOpacity){
+    for(var i = 0; i < count; i++){
+      var s = document.createElement('div');
+      s.className = 'floating-sparkle';
+      s.innerHTML = shapes[i % shapes.length];
+      var size = 12 + Math.random()*20;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = Math.random()*94 + 3 + '%';
+      s.style.bottom = '-' + (10 + Math.random()*30) + 'px';
+      s.style.color = colorVal;
+      s.style.setProperty('--sparkle-peak', String(peakOpacity));
+      s.style.animationDuration = (8 + Math.random()*12) + 's';
+      s.style.animationDelay = (Math.random()*10) + 's';
+      container.appendChild(s);
+    }
+  }
+  
+  /* Details section — gold sparkles/stars */
+  spawnSparkles(document.querySelector('.details-section'), 14, 'rgba(212,165,116,.7)', 0.16);
+})();
+</script>
+
+</body>
+</html>
