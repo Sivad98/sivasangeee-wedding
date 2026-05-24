@@ -150,7 +150,6 @@ body{
 
 /* Radial gradient overlay */
 .hero-overlay{
-  content:'';
   position:absolute;
   inset:0;
   background:radial-gradient(ellipse at center,rgba(90,21,32,.35) 0%,rgba(31,7,9,.92) 100%);
@@ -265,6 +264,7 @@ body{
   text-transform:uppercase;
   color:var(--gold);
   margin-bottom:28px;
+  animation:fadeInUp 1s ease-out .1s both;
 }
 
 .hero-names{
@@ -334,6 +334,7 @@ body{
   text-transform:uppercase;
   color:rgba(255,255,255,.72);
   line-height:2.4;
+  animation:fadeInUp 1s ease-out 1s both;
 }
 .hero-meta .gold{color:var(--gold)}
 
@@ -439,8 +440,32 @@ body{
   margin-top:8px;
 }
 
+/* ── Section divider ────────────────────────────────── */
+.section-divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:0 24px;
+  background:var(--ivory);
+}
+.section-divider span{
+  flex:1;
+  max-width:200px;
+  height:1px;
+  background:linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  opacity:.3;
+}
+.section-divider i{
+  font-style:normal;
+  color:var(--gold);
+  font-size:10px;
+  opacity:.5;
+  animation:diamondSpin 4s linear infinite;
+}
+
 /* ══════════════════════════════════════════════════════
-   WEDDING DETAILS
+   WHATSAPP CHAT DETAILS
    ══════════════════════════════════════════════════════ */
 .details-section{
   background:var(--ivory);
@@ -450,96 +475,252 @@ body{
   overflow:hidden;
 }
 
-.details-grid{
+.chat-container{
+  max-width:480px;
+  margin:0 auto;
+  background:#E5DDD5;
+  border-radius:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,.12);
+  overflow:hidden;
   position:relative;
   z-index:1;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  max-width:780px;
-  margin:0 auto;
 }
 
-.detail-card{
-  padding:28px 16px;
-  position:relative;
-  animation:cardFloatUp 3s ease-in-out infinite;
-  transition:transform .4s ease,box-shadow .4s ease,background .4s ease;
+.chat-header{
+  background:#075E54;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-.detail-card:nth-child(1){animation-delay:0s}
-.detail-card:nth-child(2){animation-delay:.4s}
-.detail-card:nth-child(3){animation-delay:.8s}
-.detail-card:hover{
-  transform:translateY(-8px);
-  background:rgba(255,255,255,.05);
-  box-shadow:0 8px 24px rgba(212,165,116,.15);
-}
-@keyframes cardFloatUp{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
-}
-.detail-card:not(:last-child)::after{
-  content:'';
-  position:absolute;
-  right:0;
-  top:15%;
-  height:70%;
-  width:1.5px;
-  background:var(--cream);
-}
-
-.detail-icon{
-  width:44px;height:44px;
-  margin:0 auto 14px;
+.chat-avatar{
+  width:40px;
+  height:40px;
   border-radius:50%;
-  border:1px solid var(--gold);
+  background:var(--gold);
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:transform .4s ease,box-shadow .4s ease;
-  animation:iconFloat 3s ease-in-out infinite;
+  font-size:20px;
 }
-.detail-card:hover .detail-icon{
-  transform:translateY(-6px) rotate(360deg);
-  box-shadow:0 6px 20px rgba(212,165,116,.3);
+.chat-header-info{
+  flex:1;
+  text-align:left;
 }
-.detail-icon svg{
-  width:18px;height:18px;
-  stroke:var(--gold);
+.chat-name{
+  font-family:var(--body);
+  font-size:16px;
+  font-weight:400;
+  color:#fff;
+  margin:0;
+}
+.chat-status{
+  font-size:12px;
+  color:rgba(255,255,255,.7);
+}
+
+.chat-body{
+  padding:20px 16px;
+  min-height:380px;
+  max-height:480px;
+  overflow-y:auto;
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23D4A373' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.chat-message{
+  display:flex;
+  margin-bottom:12px;
+  opacity:0;
+  transform:translateY(20px) scale(.95);
+  animation:messageSlideIn .4s ease-out forwards;
+}
+.chat-message.sent{
+  justify-content:flex-end;
+}
+.chat-message.received{
+  justify-content:flex-start;
+}
+
+@keyframes messageSlideIn{
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.message-bubble{
+  max-width:75%;
+  padding:8px 12px;
+  border-radius:8px;
+  position:relative;
+  box-shadow:0 1px 2px rgba(0,0,0,.1);
+}
+.sent .message-bubble{
+  background:#DCF8C6;
+  border-bottom-right-radius:2px;
+}
+.received .message-bubble{
+  background:#fff;
+  border-bottom-left-radius:2px;
+}
+
+.message-text{
+  font-family:var(--body);
+  font-size:14px;
+  line-height:1.5;
+  color:#303030;
+  margin:0 0 4px 0;
+}
+.message-time{
+  font-size:10px;
+  color:rgba(0,0,0,.45);
+  text-align:right;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:3px;
+}
+.message-time svg{
+  width:14px;
+  height:14px;
+  fill:#4FC3F7;
+}
+
+.typing-indicator{
+  display:flex;
+  gap:4px;
+  padding:12px;
+  background:#fff;
+  border-radius:8px;
+  width:fit-content;
+  opacity:0;
+  animation:messageSlideIn .4s ease-out forwards;
+}
+.typing-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#90949c;
+  animation:typingBounce 1.4s infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{
+  0%,60%,100%{transform:translateY(0)}
+  30%{transform:translateY(-8px)}
+}
+
+.chat-footer{
+  background:#fff;
+  padding:20px 16px;
+  border-top:1px solid rgba(0,0,0,.08);
+  opacity:0;
+  transform:scale(0.7);
+  animation:zoomInPop .6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes zoomInPop{
+  0%{
+    opacity:0;
+    transform:scale(0.7);
+  }
+  60%{
+    opacity:1;
+    transform:scale(1.05);
+  }
+  100%{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+.chat-info-card{
+  background:#F0F2F5;
+  border-radius:8px;
+  padding:16px;
+  text-align:left;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.chat-reminder{
+  background:linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  border-radius:6px;
+  padding:10px 12px;
+  margin-bottom:14px;
+  text-align:center;
+  box-shadow:0 2px 6px rgba(255,165,0,.3);
+}
+.chat-reminder-text{
+  font-family:var(--body);
+  font-size:13px;
+  font-weight:600;
+  color:#5A1520;
+  line-height:1.4;
+  margin:0;
+}
+.chat-info-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+.chat-info-row:last-child{
+  margin-bottom:0;
+}
+.chat-info-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 2px 6px rgba(212,165,116,.3);
+}
+.chat-info-icon svg{
+  width:16px;
+  height:16px;
+  stroke:#fff;
   fill:none;
-  stroke-width:1.5;
+  stroke-width:2;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
-@keyframes iconFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-3px)}
+.chat-info-text{
+  flex:1;
 }
-
-.detail-label{
+.chat-info-label{
   font-family:var(--body);
-  font-size:clamp(8px,1vw,10px);
+  font-size:11px;
   font-weight:400;
-  letter-spacing:3px;
+  color:#667781;
   text-transform:uppercase;
-  color:var(--gold);
-  margin-bottom:8px;
-  animation:labelPulse 2s ease-in-out infinite;
+  letter-spacing:.5px;
+  margin-bottom:2px;
 }
-@keyframes labelPulse{
-  0%,100%{opacity:.8}
-  50%{opacity:1}
+.chat-info-value{
+  font-family:var(--body);
+  font-size:15px;
+  font-weight:500;
+  color:#111b21;
+  line-height:1.4;
 }
-
-.detail-value{
-  font-family:var(--heading);
-  font-weight:400;
-  font-size:clamp(18px,2.4vw,24px);
-  color:var(--text-dark);
-  line-height:1.45;
-  transition:color .3s ease;
+.chat-info-value a{
+  color:#075E54;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  transition:color .2s;
 }
-.detail-card:hover .detail-value{
-  color:var(--maroon);
+.chat-info-value a:hover{
+  color:#128C7E;
+  text-decoration:underline;
+}
+.chat-info-value a svg{
+  width:14px;
+  height:14px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:2;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -570,6 +751,7 @@ body{
   transition:transform .5s ease,box-shadow .5s ease,filter .5s ease;
   display:block;
   cursor:pointer;
+  position:relative;
   animation:photoFloat 4s ease-in-out infinite;
 }
 .photos img:hover{
@@ -629,6 +811,10 @@ body{
   height:280px;
   object-fit:cover;
   display:block;
+  transition:transform .6s ease;
+}
+.venue-card:hover img{
+  transform:scale(1.05);
 }
 
 .venue-body{
@@ -719,6 +905,9 @@ body{
   text-transform:uppercase;
   color:rgba(255,255,255,.4);
   margin-top:14px;
+  animation:fadeInUp 1s ease-out .3s both;
+  position:relative;
+  z-index:3;
 }
 
 .footer-closing{
@@ -731,6 +920,9 @@ body{
   max-width:460px;
   margin-left:auto;
   margin-right:auto;
+  animation:fadeInUp 1s ease-out .6s both;
+  position:relative;
+  z-index:3;
 }
 
 /* ── Walking couple silhouette ────────────────────── */
@@ -845,15 +1037,125 @@ body{
 }
 
 /* ══════════════════════════════════════════════════════
-   MOBILE
+   MOBILE — fluid & smooth experience
    ══════════════════════════════════════════════════════ */
+
+/* GPU-accelerate all animated elements */
+.reveal,.reveal-zoom,.reveal-left,.reveal-right,
+.stagger-children > *,
+.photos img,.venue-card,.chat-container,.chat-message,
+.floating-heart,.floating-sparkle,.petal,
+.corner-ornament,.box{
+  will-change:transform,opacity;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+
 @media(max-width:600px){
-  .details-grid{
-    grid-template-columns:1fr;
+
+  /* ── Smoother, softer scroll reveals ─────────── */
+  .reveal{
+    transform:translateY(20px) scale(.98);
+    transition-duration:.7s;
   }
-  .detail-card:not(:last-child)::after{
-    width:60%;height:1px;
-    top:auto;bottom:0;left:20%;right:auto;
+  .reveal-zoom{
+    transform:scale(.93);
+    transition-duration:.8s;
+  }
+  .reveal-left{transform:translateX(-24px) scale(.98)}
+  .reveal-right{transform:translateX(24px) scale(.98)}
+  .stagger-children > *{
+    transform:translateY(16px) scale(.97);
+    transition-duration:.6s;
+  }
+
+  /* ── Hero ─────────────────────────────────────── */
+  .hero{
+    padding:32px 20px;
+  }
+  .corner-ornament{
+    width:clamp(50px,10vw,80px);
+    height:clamp(50px,10vw,80px);
+  }
+  .corner-tl{top:10px;left:10px}
+  .corner-tr{top:10px;right:10px}
+  .corner-bl{bottom:10px;left:10px}
+  .corner-br{bottom:10px;right:10px}
+  .hero-tagline{
+    letter-spacing:3px;
+    margin-bottom:20px;
+  }
+  .hero-names .amp{margin:2px 0}
+  .diamond-rule{margin:20px auto;width:min(260px,75%)}
+  .hero-meta{line-height:2.2}
+  .hero-cta{
+    margin-top:28px;
+    padding:11px 24px;
+    font-size:10px;
+    letter-spacing:2px;
+  }
+
+  /* ── Countdown ────────────────────────────────── */
+  .countdown{
+    padding:clamp(36px,7vw,64px) 16px;
+  }
+  .countdown .section-label{margin-bottom:24px}
+  .timer{gap:clamp(8px,2vw,14px)}
+  .box{
+    width:clamp(68px,20vw,90px);
+    padding:clamp(12px,3vw,20px) 6px;
+    border-radius:4px;
+  }
+
+  /* ── WhatsApp Chat ────────────────────────────── */
+  .details-section{
+    padding:clamp(36px,7vw,64px) 16px;
+  }
+  .chat-container{
+    max-width:100%;
+    border-radius:8px;
+    box-shadow:0 4px 20px rgba(0,0,0,.1);
+  }
+  .chat-body{
+    min-height:320px;
+    max-height:400px;
+    padding:16px 12px;
+  }
+  .message-bubble{
+    max-width:82%;
+  }
+  .message-text{
+    font-size:13.5px;
+  }
+  .chat-footer{
+    padding:14px 12px;
+  }
+  .chat-info-card{
+    padding:12px;
+  }
+  .chat-info-icon{
+    width:32px;
+    height:32px;
+  }
+  .chat-info-icon svg{
+    width:14px;
+    height:14px;
+  }
+  .chat-reminder{
+    padding:8px 10px;
+    margin-bottom:10px;
+  }
+  .chat-reminder-text{
+    font-size:12px;
+  }
+
+  /* ── Gallery ──────────────────────────────────── */
+  .gallery{
+    padding:clamp(36px,7vw,64px) 16px;
+  }
+  .photos{
+    gap:8px;
+    margin-top:24px;
   }
   .photos img:nth-child(1),
   .photos img:nth-child(2),
@@ -863,6 +1165,104 @@ body{
   .photos img:nth-child(6){
     grid-column:span 12;
     height:220px;
+  }
+  /* Subtler floating on mobile for performance */
+  .photos img{
+    animation-duration:5s;
+  }
+  @keyframes photoFloat{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-3px) rotate(-.3deg)}
+    50%{transform:translateY(0) rotate(.3deg)}
+    75%{transform:translateY(-2px) rotate(-.2deg)}
+  }
+
+  /* ── Venue ────────────────────────────────────── */
+  .venue-section{
+    padding:clamp(36px,7vw,64px) 16px;
+  }
+  .venue-card{
+    border-radius:8px;
+  }
+  .venue-card img{
+    height:200px;
+  }
+  .venue-body{
+    padding:20px 20px 24px;
+  }
+  .venue-btn{
+    padding:11px 22px;
+    font-size:11px;
+    width:100%;
+    justify-content:center;
+  }
+
+  /* ── Footer ───────────────────────────────────── */
+  .footer{
+    padding:clamp(36px,7vw,64px) 16px;
+  }
+  .footer-closing{
+    font-size:clamp(11px,1.3vw,13px);
+    margin-top:20px;
+  }
+  .couple-walk-track{
+    height:80px;
+  }
+  .road-static{
+    height:80px;
+  }
+
+  /* ── Section dividers ─────────────────────────── */
+  .section-divider{
+    padding:0 16px;
+  }
+  .section-divider span{
+    max-width:120px;
+  }
+
+  /* ── Reduce particle count for performance ──── */
+  .floating-heart{
+    animation-duration:14s !important;
+  }
+  .floating-sparkle{
+    animation-duration:10s !important;
+  }
+
+  /* ── Smooth momentum scrolling ──────────────── */
+  .chat-body{
+    -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth;
+  }
+}
+
+/* ── Tablet tweaks ─────────────────────────────── */
+@media(max-width:768px) and (min-width:601px){
+  .photos img:nth-child(1),
+  .photos img:nth-child(2){
+    grid-column:span 6;
+    height:280px;
+  }
+  .photos img:nth-child(3),
+  .photos img:nth-child(4),
+  .photos img:nth-child(5){
+    grid-column:span 4;
+    height:240px;
+  }
+  .photos img:nth-child(6){
+    grid-column:span 12;
+    height:220px;
+  }
+  .chat-container{
+    max-width:420px;
+  }
+}
+
+/* ── Reduce motion for accessibility ──────────── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
   }
 }
 </style>
@@ -933,39 +1333,71 @@ body{
 
 <!-- ═══════════════════════  WEDDING DETAILS  ═══════════════════════ -->
 <section class="details-section has-hearts reveal-zoom">
-  <p class="section-label" style="color:var(--gold)">Wedding Details</p>
+  <p class="section-label">Wedding Details</p>
 
-  <div class="details-grid stagger-children reveal">
-
-    <!-- Date -->
-    <div class="detail-card">
-      <div class="detail-icon">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+  <div class="chat-container reveal-zoom">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-avatar">💒</div>
+      <div class="chat-header-info">
+        <div class="chat-name">Wedding Info</div>
+        <div class="chat-status">online</div>
       </div>
-      <p class="detail-label">Date</p>
-      <p class="detail-value">07 June<br>2026</p>
     </div>
 
-    <!-- Time -->
-    <div class="detail-card">
-      <div class="detail-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <p class="detail-label">Time</p>
-      <p class="detail-value">7:30 AM<br>Onwards</p>
+    <!-- Chat Messages -->
+    <div class="chat-body" id="chatBody">
+      <!-- Messages will be added by JavaScript -->
     </div>
-
-    <!-- Venue -->
-    <div class="detail-card">
-      <div class="detail-icon">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    
+    <!-- Chat Footer with Details -->
+    <div class="chat-footer" id="chatFooter" style="display:none">
+      <div class="chat-info-card">
+        <!-- Funny Reminder -->
+        <div class="chat-reminder">
+          <p class="chat-reminder-text">📌 Don't forget! Mark your calendar & set 10 alarms! ⏰😄</p>
+        </div>
+        
+        <div class="chat-info-row">
+          <div class="chat-info-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="chat-info-text">
+            <div class="chat-info-label">Date</div>
+            <div class="chat-info-value">07 June 2026</div>
+          </div>
+        </div>
+        
+        <div class="chat-info-row">
+          <div class="chat-info-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="chat-info-text">
+            <div class="chat-info-label">Time</div>
+            <div class="chat-info-value">7:30 AM Onwards</div>
+          </div>
+        </div>
+        
+        <div class="chat-info-row">
+          <div class="chat-info-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="chat-info-text">
+            <div class="chat-info-label">Venue</div>
+            <div class="chat-info-value">
+              <a href="https://share.google/HgRwv1oPDnzEwe6BZ" target="_blank">
+                Sri Sai AC Mahal
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="detail-label">Venue</p>
-      <p class="detail-value">Sri Sai<br>AC Mahal</p>
     </div>
-
   </div>
 </section>
+
+<div class="section-divider"><span></span><i>&#10022;</i><span></span></div>
 
 <!-- ═══════════════════════  GALLERY  ═══════════════════════ -->
 <section class="gallery has-hearts reveal-zoom">
@@ -980,6 +1412,8 @@ body{
     <img src="photo6.jpg" alt="Couple photo 6">
   </div>
 </section>
+
+<div class="section-divider"><span></span><i>&#10022;</i><span></span></div>
 
 <!-- ═══════════════════════  VENUE  ═══════════════════════ -->
 <section class="venue-section has-hearts reveal-zoom">
@@ -1151,7 +1585,7 @@ var observer = new IntersectionObserver(function(entries){
       e.target.classList.add('visible');
     }
   });
-},{threshold:0.10, rootMargin:'0px 0px -40px 0px'});
+},{threshold:0.08, rootMargin:'0px 0px -30px 0px'});
 
 document.querySelectorAll(revealSelectors).forEach(function(el){
   observer.observe(el);
@@ -1161,7 +1595,8 @@ document.querySelectorAll(revealSelectors).forEach(function(el){
 (function(){
   const hero = document.querySelector('.hero');
   const colors = ['#C9A55C','#F0E8DD','#D4A373','#FAF6F0'];
-  for(let i = 0; i < 18; i++){
+  var petalCount = window.innerWidth <= 600 ? 10 : 18;
+  for(let i = 0; i < petalCount; i++){
     const p = document.createElement('div');
     p.className = 'petal';
     p.style.left = Math.random()*100 + '%';
@@ -1197,14 +1632,16 @@ document.querySelectorAll(revealSelectors).forEach(function(el){
     }
   }
 
+  var isMobile = window.innerWidth <= 600;
+  
   /* Hero — gold/cream hearts, very faint */
-  spawnHearts(document.querySelector('.hero'), 16, 'rgba(201,165,92,.7)', 0.15);
+  spawnHearts(document.querySelector('.hero'), isMobile ? 8 : 16, 'rgba(201,165,92,.7)', 0.15);
 
   /* Countdown — warm rose-gold hearts */
-  spawnHearts(document.querySelector('.countdown'), 12, 'rgba(212,163,115,.65)', 0.14);
+  spawnHearts(document.querySelector('.countdown'), isMobile ? 6 : 12, 'rgba(212,163,115,.65)', 0.14);
 
   /* Footer — soft gold hearts */
-  spawnHearts(document.querySelector('.footer'), 10, 'rgba(201,165,92,.6)', 0.13);
+  spawnHearts(document.querySelector('.footer'), isMobile ? 5 : 10, 'rgba(201,165,92,.6)', 0.13);
 })();
 
 /* ── Floating sparkles in details section ──────── */
@@ -1233,8 +1670,120 @@ document.querySelectorAll(revealSelectors).forEach(function(el){
     }
   }
   
+  var isMob = window.innerWidth <= 600;
+  
   /* Details section — gold sparkles/stars */
-  spawnSparkles(document.querySelector('.details-section'), 14, 'rgba(212,165,116,.7)', 0.16);
+  spawnSparkles(document.querySelector('.details-section'), isMob ? 7 : 14, 'rgba(212,165,116,.7)', 0.16);
+  
+  /* Gallery section — rose-gold sparkles */
+  spawnSparkles(document.querySelector('.gallery'), isMob ? 5 : 10, 'rgba(201,149,107,.6)', 0.12);
+})();
+
+/* ── WhatsApp Chat Animation ──────────────────────── */
+(function(){
+  var chatBody = document.getElementById('chatBody');
+  if(!chatBody) return;
+  
+  var chatStarted = false;
+  var checkmark = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.033l-.358-.325a.32.32 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg>';
+  
+  var messages = [
+    {type: 'received', text: 'Hey bro! Where is the wedding venue? 🤔', delay: 800},
+    {type: 'typing', delay: 1500},
+    {type: 'sent', text: 'Hey! It\'s at Sri Sai AC Mahal 🏛️', delay: 2000},
+    {type: 'received', text: 'Nice! What time should I be there?', delay: 1500},
+    {type: 'typing', delay: 1200},
+    {type: 'sent', text: 'Ceremony starts at 7:30 AM ⏰', delay: 1800},
+    {type: 'received', text: 'Got it! And the date?', delay: 1500},
+    {type: 'typing', delay: 1000},
+    {type: 'sent', text: '07 June 2026 📅', delay: 1600},
+    {type: 'received', text: 'Perfect! Can\'t wait! 🎉', delay: 1500},
+    {type: 'sent', text: 'See you there! 💒✨', delay: 1200},
+    {type: 'footer', delay: 1000}
+  ];
+  
+  var currentTime = new Date();
+  
+  function formatTime(offset){
+    var t = new Date(currentTime.getTime() + offset);
+    var h = t.getHours();
+    var m = t.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    m = m < 10 ? '0' + m : m;
+    return h + ':' + m + ' ' + ampm;
+  }
+  
+  function addMessage(msg, timeOffset){
+    if(msg.type === 'typing'){
+      var typing = document.createElement('div');
+      typing.className = 'chat-message received';
+      typing.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+      chatBody.appendChild(typing);
+      return typing;
+    }
+    
+    var msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-message ' + msg.type;
+    
+    var bubble = '<div class="message-bubble">' +
+      '<p class="message-text">' + msg.text + '</p>' +
+      '<div class="message-time">' + formatTime(timeOffset);
+    
+    if(msg.type === 'sent'){
+      bubble += checkmark;
+    }
+    
+    bubble += '</div></div>';
+    msgDiv.innerHTML = bubble;
+    chatBody.appendChild(msgDiv);
+    
+    return msgDiv;
+  }
+  
+  function startChat(){
+    if(chatStarted) return;
+    chatStarted = true;
+    
+    var totalDelay = 0;
+    var chatFooter = document.getElementById('chatFooter');
+    
+    messages.forEach(function(msg, idx){
+      totalDelay += msg.delay;
+      
+      setTimeout(function(){
+        if(msg.type === 'footer'){
+          if(chatFooter){
+            chatFooter.style.display = 'block';
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }
+          return;
+        }
+        
+        var elem = addMessage(msg, totalDelay);
+        
+        if(msg.type === 'typing' && messages[idx + 1]){
+          setTimeout(function(){
+            elem.remove();
+          }, messages[idx + 1].delay - 100);
+        }
+        
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, totalDelay);
+    });
+  }
+  
+  /* Trigger chat when section scrolls into view */
+  var chatObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        startChat();
+        chatObserver.disconnect();
+      }
+    });
+  },{threshold:0.3});
+  
+  chatObserver.observe(document.querySelector('.details-section'));
 })();
 </script>
 
